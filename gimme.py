@@ -1,5 +1,6 @@
 import argparse
 import re
+import os
 #'pip install termcolor' if you get an error about termcolor module not installed
 from termcolor import colored
 
@@ -58,7 +59,9 @@ def main():
     
     args = parser.parse_args()
 
-    log_file_path = args.log_file
+    file_path = args.log_file
+    log_file_path = os.path.realpath(file_path)
+    
     if args.emails:
         emails = get_emails(log_file_path)
         if emails:

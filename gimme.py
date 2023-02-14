@@ -4,40 +4,100 @@ import os
 #'pip install termcolor' if you get an error about termcolor module not installed
 from termcolor import colored
 
-def get_emails(log_file_path):
-    with open(os.path.realpath(log_file_path), 'r') as log_file:
-        log_content = log_file.read()
-        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
-        emails = re.findall(email_pattern, log_content)
-        return emails
+def get_emails(log_file):
+    log_content = log_file.read()
+    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+    emails = re.findall(email_pattern, log_content)
+    if emails:
+        print(colored('\nEmail Addresses:', 'red'))
+        for email in emails:
+            print(email)
+    return 0
 
-def get_ips(log_file_path):
-    with open(log_file_path, 'r') as log_file:
-        log_content = log_file.read()
-        ip_pattern = r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
-        ips = re.findall(ip_pattern, log_content)
-        return ips
+def get_ips(log_file):
+    log_content = log_file.read()
+    ip_pattern = r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
+    ips = re.findall(ip_pattern, log_content)
+    if ips:
+        print(colored('\nIP Addresses:', 'red'))
+        for ip in ips:
+            print(ip)
+    return 0
 
-def get_domains(log_file_path):
-    with open(log_file_path, 'r') as log_file:
-        log_content = log_file.read()
-        domain_pattern = r'\b[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
-        domains = re.findall(domain_pattern, log_content)
-        return domains
+def get_domains(log_file):
+    log_content = log_file.read()
+    domain_pattern = r'\b[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+    domains = re.findall(domain_pattern, log_content)
+    if domains:
+            print(colored('\nDomain Names:', 'red'))
+            for domain in domains:
+                print(domain)
+    return 0
 
-def get_urls(log_file_path):
-    with open(log_file_path, 'r') as log_file:
-        log_content = log_file.read()
-        url_pattern = r'\bhttps?://[\w.-]+/\S+\b'
-        urls = re.findall(url_pattern, log_content)
-        return urls
+def get_urls(log_file):
+    log_content = log_file.read()
+    url_pattern = r'\bhttps?://[\w.-]+/\S+\b'
+    urls = re.findall(url_pattern, log_content)
+    if urls:
+        print(colored('\nURLs:', 'red'))
+        for url in urls:
+            print(url)
+    return 0
 
-def get_filenames(log_file_path):
-    with open(log_file_path, 'r') as log_file:
-        log_content = log_file.read()
-        filename_pattern = r'\b\w+\.[A-Za-z]+\b'
-        filenames = re.findall(filename_pattern, log_content)
-        return filenames
+def get_filenames(log_file):
+    log_content = log_file.read()
+    filename_pattern = r'\b\w+\.[A-Za-z]+\b'
+    filenames = re.findall(filename_pattern, log_content)
+    if filenames:
+        print(colored('\nFile Name:' , 'red'))
+        for filename in filenames:
+            print(filename)
+    return 0
+
+
+def get_all(log_file):
+    log_content = log_file.read()
+
+    #email
+    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+    emails = re.findall(email_pattern, log_content)
+    if emails:
+        print(colored('\nEmail Addresses:', 'red'))
+        for email in emails:
+            print(email)
+
+    #ips
+    ip_pattern = r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
+    ips = re.findall(ip_pattern, log_content)
+    if ips:
+        print(colored('\nIP Addresses:', 'red'))
+        for ip in ips:
+            print(ip)
+
+    #domains
+    domain_pattern = r'\b[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
+    domains = re.findall(domain_pattern, log_content)
+    if domains:
+            print(colored('\nDomain Names:', 'red'))
+            for domain in domains:
+                print(domain)  
+
+    #urls
+    url_pattern = r'\bhttps?://[\w.-]+/\S+\b'
+    urls = re.findall(url_pattern, log_content)
+    if urls:
+        print(colored('\nURLs:', 'red'))
+        for url in urls:
+            print(url)
+
+    #filenames
+    filename_pattern = r'\b\w+\.[A-Za-z]+\b'
+    filenames = re.findall(filename_pattern, log_content)
+    if filenames:
+        print(colored('\nFile Name:' , 'red'))
+        for filename in filenames:
+            print(filename)
+ 
 
 def main():
     print(colored('''
@@ -59,65 +119,22 @@ def main():
     
     args = parser.parse_args()
 
-    file_path = args.log_file
-    log_file_path = os.path.realpath(file_path)
+    log_file_path = args.log_file
+    log_file = open(log_file_path, 'r')
+    
     
     if args.emails:
-        emails = get_emails(log_file_path)
-        if emails:
-            print(colored('\nEmail Addresses:', 'red'))
-            for email in emails:
-                print(email)
-    if args.ips:
-        ips = get_ips(log_file_path)
-        if ips:
-            print(colored('\nIP Addresses:', 'red'))
-            for ip in ips:
-                print(ip)
-    if args.domains:
-        domains = get_domains(log_file_path)
-        if domains:
-            print(colored('\nDomain Names:', 'red'))
-            for domain in domains:
-                print(domain)
-    if args.urls:
-        urls = get_urls(log_file_path)
-        if urls:
-            print(colored('\nURLs:', 'red'))
-            for url in urls:
-                print(url)
-    if args.filenames:
-        filenames = get_filenames(log_file_path)
-        if filenames:
-            print(colored('\nFile Name:' , 'red'))
-            for filename in filenames:
-                print(filename)
-    if args.all:
-        emails = get_emails(log_file_path)
-        if emails:
-            print(colored('\nEmail Addresses:', 'red'))
-            for email in emails:
-                print(email)
-        ips = get_ips(log_file_path)
-        if ips:
-            print(colored('\nIP Addresses:', 'red'))
-            for ip in ips:
-                print(ip)
-        domains = get_domains(log_file_path)
-        if domains:
-            print(colored('\nDomain Names:', 'red'))
-            for domain in domains:
-                print(domain)
-        urls = get_urls(log_file_path)
-        if urls:
-            print(colored('\nURLs:', 'red'))
-            for url in urls:
-                print(url)
-        filenames = get_filenames(log_file_path)
-        if filenames:
-            print(colored('\nFile Name:' , 'red'))
-            for filename in filenames:
-                print(filename)
+        get_emails(log_file)
+    elif args.ips:
+        get_ips(log_file)
+    elif args.domains:
+        get_domains(log_file)
+    elif args.urls:
+        get_urls(log_file)
+    elif args.filenames:
+        get_filenames(log_file)
+    elif args.all:
+        get_all(log_file)
 
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ import os
 from termcolor import colored
 
 def get_emails(log_file_path):
-    with open(log_file_path, 'r') as log_file:
+    with open(os.path.realpath(log_file_path), 'r') as log_file:
         log_content = log_file.read()
         email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b'
         emails = re.findall(email_pattern, log_content)

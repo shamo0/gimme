@@ -29,10 +29,11 @@ An example log file containing IPs, emails, file paths, names, dates, and domain
 
 ## Requirements
 Gimme requires Python 3 to run, and the following packages are also required:
-
-argparse
-colorama
-re
+<ul>
+<li>argparse</li>
+<li>colorama</li>
+<li>re</li>
+</ul>
 You can install these packages using pip by running:
 
 
